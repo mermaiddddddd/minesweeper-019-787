@@ -1,5 +1,7 @@
 package com.lab;
- 
+
+import java.util.Scanner;
+
 /**
  * Hello world!
  */
@@ -18,19 +20,36 @@ public class App {
         game.setMineCell(8, 6);
         return game;
     }
+
     static Minesweeper initMineFieldFromFile(String minefieldFile) {
         return new Minesweeper(minefieldFile);
     }
+
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
         // Task 3: Implement a menu to select the mine field template
-        // Design the menu by yourself.
-               
- 
-        //v1
-        //Minesweeper game = initMineField();
- 
-        //v2
-        Minesweeper game = initMineFieldFromFile("minefield/minefield01.txt");
+        System.out.println("Select a minefield template:");
+        System.out.println("1. Custom Minefield");
+        System.out.println("2. Minefield from File (minefield01.txt)");
+        System.out.print("Enter your choice (1 or 2): ");
+        
+        int choice = scanner.nextInt();
+        Minesweeper game = null;
+
+        switch (choice) {
+            case 1:
+                game = initMineField();
+                break;
+            case 2:
+                game = initMineFieldFromFile("minefield/minefield01.txt");
+                break;
+            default:
+                System.out.println("Invalid choice. Using default custom minefield.");
+                game = initMineField();
+        }
+
+        
         game.displayField();
-    }    
+    }
 }
