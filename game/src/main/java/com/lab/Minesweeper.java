@@ -1,43 +1,49 @@
 package com.lab;
 import java.util.Scanner;
 import java.io.InputStream;
+
 public class Minesweeper {
     static char SAFE_CELL = '.';
-    static char MINE_CELL = 'X' ;
+    static char MINE_CELL = 'X';
     static int IS_SAFE = 0;
     static int IS_MINE = 1;
     int fieldX, fieldY;
     int[][] cells;
     String fieldFileName;
+
     public Minesweeper(String fieldFile) {
         this.fieldFileName = fieldFile;
         initFromFile(fieldFileName);
     }
+
     public Minesweeper(int fieldX, int fieldY) {
         this.fieldX = fieldX;
         this.fieldY = fieldY;
         this.cells = new int[fieldX][fieldY];
-        for (int i=0; i<fieldX; i++) {
-            for (int j=0; j<fieldY; j++) {
+        for (int i = 0; i < fieldX; i++) {
+            for (int j = 0; j < fieldY; j++) {
                 cells[i][j] = IS_SAFE;
             }
         }
     }
-        void displayField() {
-            for (int i = 0; i < fieldX; i++) {
-                for (int j = 0; j < fieldY; j++) {
-                    if (cells[i][j] == IS_MINE) {
-                        System.out.print(MINE_CELL + " ");
-                    } else {
-                        System.out.print(SAFE_CELL + " ");
-                    }
+
+    void displayField() {
+        for (int i = 0; i < fieldX; i++) {
+            for (int j = 0; j < fieldY; j++) {
+                if (cells[i][j] == IS_MINE) {
+                    System.out.print(MINE_CELL + " ");
+                } else {
+                    System.out.print(SAFE_CELL + " ");
                 }
-                System.out.println();
             }
+            System.out.println();
+        }
     }
+
     void setMineCell(int x, int y) {
         cells[x][y] = IS_MINE;
     }
+
     void initFromFile(String mineFieldFile) {
         InputStream is = getClass().getClassLoader().getResourceAsStream(mineFieldFile);
         if (is == null) {
@@ -62,5 +68,21 @@ public class Minesweeper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    
+    public boolean revealCell(int x, int y) {
+        if (x < 0 || x >= fieldX || y < 0 || y >= fieldY) {
+            System.out.println("Invalid position: (" + x + ", " + y + ")");
+            return false;  
+        }
+        
+        if (cells[x][y] == IS_MINE) {
+            System.out.println("You hit a mine! Game over.");
+            return false;  
+        }
+        
+        System.out.println("Safe cell at (" + x + ", " + y + ")");
+        return true;  
     }
 }
